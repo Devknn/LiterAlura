@@ -1,12 +1,8 @@
 package com.examplenavnoreinek.LiterAlura.principal;
 import com.examplenavnoreinek.LiterAlura.model.Datos;
-
-import com.examplenavnoreinek.LiterAlura.model.DatosAuthors;
 import com.examplenavnoreinek.LiterAlura.model.DatosBook;
 import com.examplenavnoreinek.LiterAlura.service.ConsumoAPI;
 import com.examplenavnoreinek.LiterAlura.service.ConvierteDatos;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
@@ -48,12 +44,12 @@ public class Principal {
                         buscarLibrosPorAutor();
                         break;
                     case 3:
-                        mostrarTop10Libros();  
+                        mostrarTop10Libros();
                         break;
                     case 4:
                         listarTodosLosLibros();
                         break;
-              
+
                     case 0:
                         System.out.println("Cerrando la aplicación...");
                         break;
@@ -73,15 +69,13 @@ public class Principal {
         var datos = conversor.obtenerDatos(json, Datos.class);
 
         if (datos != null && datos.getResultado() != null && !datos.getResultado().isEmpty()) {
-            var resultado = datos.getResultado().get(0); // Get the first result
-            var idioma = resultado.getIdiomas().isEmpty() ? "Desconocido" : resultado.getIdiomas().get(0);
+            var resultado = datos.getResultado().get(0);
             var autor = resultado.getAutores().isEmpty() ? "Desconocido" : resultado.getAutores().get(0).getNombre();
-            var descargas = resultado.getDescargas();
 
-            System.out.println("Título: " + resultado.getTitulo());
-            System.out.println("Autor: " + autor);
-            System.out.println("Idioma: " + idioma);
-            System.out.println("Descargas: " + descargas);
+            System.out.println("Título: " + resultado.getTitulo() +
+                    "\nAutor: " + autor +
+                    "\nIdioma: " + resultado.getIdiomas() +
+                    "\nDescargas: " + resultado.getDescargas());
         } else {
             System.out.println("No se encontraron libros con ese título.");
         }
@@ -94,21 +88,22 @@ public class Principal {
         var datos = conversor.obtenerDatos(json, Datos.class);
 
         if (datos != null && datos.getResultado() != null && !datos.getResultado().isEmpty()) {
-            var resultado = datos.getResultado().get(0); // Get the first result
-            System.out.println("Resultados para el autor " + nombreAutor + ":");
+            var resultado = datos.getResultado().get(0);
+            System.out.println("Resultados para el autor:");
 
             var autor = resultado.getAutores().isEmpty() ? "Desconocido" : resultado.getAutores().get(0).getNombre();
             var nacimiento = resultado.getAutores().isEmpty() ? "Desconocido" : resultado.getAutores().get(0).getNacimiento();
             var fallecimiento = resultado.getAutores().isEmpty() ? "Desconocido" : resultado.getAutores().get(0).getFallecimiento();
 
-            //System.out.println("  - Título: " + resultado.getTitulo());
-            System.out.println("    Autor: " + autor);
-            System.out.println("    Nacimiento: " + nacimiento);
-            System.out.println("    Fallecimiento: " + fallecimiento);
+            System.out.println(
+                            "\nAutor: " + autor +
+                            "\nNacimiento: " + nacimiento +
+                            "\nFallecimiento: " + fallecimiento);
         } else {
             System.out.println("No se encontraron libros para el autor " + nombreAutor + ".");
         }
     }
+
 
     private void mostrarTop10Libros() {
         var json = consumoApi.obtenerDatos(URL_BASE);
@@ -125,10 +120,10 @@ public class Principal {
                 var autor = libro.getAutores().isEmpty() ? "Desconocido" : libro.getAutores().get(0).getNombre();
                 var descargas = libro.getDescargas();
 
-                System.out.println((i + 1) + ". Título: " + libro.getTitulo());
-                System.out.println("    Autor: " + autor);
-                System.out.println("    Idioma: " + idioma);
-                System.out.println("    Descargas: " + descargas);
+                System.out.println((i + 1) + ". Título: " + libro.getTitulo() +
+                                "\nAutor: " + autor +
+                                "\nIdioma: " + idioma +
+                                "\nDescargas: " + descargas);
             }
         } else {
             System.out.println("No se encontraron libros.");
@@ -144,12 +139,10 @@ public class Principal {
             for (var libro : datos.getResultado()) {
                 var idioma = libro.getIdiomas().isEmpty() ? "Desconocido" : libro.getIdiomas().get(0);
                 var autor = libro.getAutores().isEmpty() ? "Desconocido" : libro.getAutores().get(0).getNombre();
-                var descargas = libro.getDescargas();
 
-               // System.out.println("  - Título: " + libro.getTitulo());
-                System.out.println("    Autor: " + autor);
-                System.out.println("    Idioma: " + idioma);
-                System.out.println("    Descargas: " + descargas);
+                System.out.println("  - Título: " + libro.getTitulo() +
+                            "\nAutor: " + autor +
+                            "\nIdioma: " + idioma);
             }
         } else {
             System.out.println("No se encontraron libros.");
